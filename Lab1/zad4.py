@@ -1,6 +1,5 @@
 import asyncio
 
-
 async def main() -> None:
     i = 1
     while i < 6:

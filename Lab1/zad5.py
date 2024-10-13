@@ -15,9 +15,6 @@ async def main() -> None:
         x = z
         i += 1
 
-
-
-
 if __name__ == "__main__":
     with asyncio.Runner() as runner:
         runner.run(main())

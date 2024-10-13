@@ -1,6 +1,5 @@
 import asyncio
 
-
 async def main() -> None:
     await asyncio.sleep(3)
     print("Hello")
