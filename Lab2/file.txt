@@ -1,0 +1,3 @@
+Srednia temperatura: 7.801190476190476
+Minimalna temperatura: 1.5
+Maksymalna temperatura: 16.5

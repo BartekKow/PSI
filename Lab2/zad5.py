@@ -1,28 +1,25 @@
 import aiohttp
 import asyncio
 
-async def fetch(latitude: float, longitude: float) -> dict:
-    url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current_weather=true"
+async def fetch(url: str) -> dict:
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
             return await response.json()
 
+
 async def main() -> None:
-    cities = {
-        "Porlamar": (10.95, -63.86),
-        "Moroni": (-11.70, 43.24),
-        "Helsinki": (60.17, 24.94)
+    url1 = "https://api.open-meteo.com/v1/forecast?latitude=10.57&longitude=-63.50&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
+    url2 = "https://api.open-meteo.com/v1/forecast?latitude=-11.42&longitude=43.15&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
+    url3 = "https://api.open-meteo.com/v1/forecast?latitude=60.10&longitude=24.56&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
+
+    weather = await asyncio.gather(fetch(url1),fetch(url2),fetch(url3))
+
+    weather_dict = {
+        "Porlamar": weather[0]["current"],
+        "Moroni": weather[1]["current"],
+        "Helsinki": weather[2]["current"],
     }
-
-    results = await asyncio.gather(
-        *(fetch(latt, long) for latt, long in cities.values())
-    )
-
-    weather_data = {
-        city: result["current_weather"]["temperature"] for city, result in zip(cities.keys(), results)
-    }
-
-    print(weather_data)
+    print(weather_dict)
 
 if __name__ == "__main__":
     asyncio.run(main())
